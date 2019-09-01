@@ -1,0 +1,46 @@
+{
+    "name": "hujing/ali",
+    "description": ":Aliyun api encapsulation",
+    "license": "license",
+    "authors": [
+        {
+            "name": "Zhang Jinglong",
+            "email": "zhangjinglong@changjingtech.com",
+            "homepage": "http://www.changjingtech.com"
+        }
+    ],
+    "homepage": "https://github.com/hujing/ali",
+    "keywords": ["Laravel", "Ali"],
+    "require": {
+        "illuminate/support": "~5",
+        "webpatser/laravel-uuid": "^3.0",
+        "alibabacloud/client": "^1.5",
+        "aliyuncs/oss-sdk-php": "^2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3.0",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hujing\\Ali\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hujing\\Ali\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hujing\\Ali\\AliServiceProvider"
+            ],
+            "aliases": {
+                "Ali": "Hujing\\Ali\\Facades\\Ali"
+            }
+        }
+    }
+}
