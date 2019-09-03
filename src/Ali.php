@@ -2,6 +2,7 @@
 
 namespace Hujing\Ali;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Session\SessionManager;
@@ -16,6 +17,11 @@ use AlibabaCloud\Client\Exception\ServerException;
 
 use Hujing\Ali\Classes\ErrorCode;
 use Hujing\Ali\Lib\CURL;
+
+use AliyunVodUploader;
+use UploadVideoRequest;
+
+require_once __DIR__ . "/Lib/voduploadsdk/Autoloader.php";
 
 class Ali
 {
@@ -47,17 +53,41 @@ class Ali
 	}
 
 	/**
+	* 上传语音到点播服务
+	*/
+	public function uploadVodAudio($path, $extension){
+		$res = null;
+
+		rename($path, $path . '.' . $extension);
+	    try {
+	        $uploader = new AliyunVodUploader($this->config->get('ali.access_key_id'), $this->config->get('ali.access_key_secret'));
+	        $uploadVideoRequest = new UploadVideoRequest($path . '.' . $extension, 'Aliyun Audio');
+	        // $userData = array(
+	        //     "MessageCallback"=>array("CallbackURL"=>"https://demo.sample.com/ProcessMessageCallback"),
+	        //     "Extend"=>array("localId"=>"xxx", "test"=>"www")
+	        // );
+	        // $uploadVideoRequest->setUserData(json_encode($userData));
+	        $res = $uploader->uploadLocalVideo($uploadVideoRequest);
+	    } catch (Exception $e) {
+	    	Log::info($e->getMessage());
+		    return [ErrorCode::$CallException, $e->getMessage()];
+	    }			
+
+	    return [ErrorCode::$OK, $res];
+	}
+
+	/**
 	* 上传文件到对象存储
 	*/
 	private function uploadFile($filePath, $fileExtension){
+		$res = null;
+
 		// 文件名称
 		$object = UUID::generate()->string . '.' . $fileExtension;
-		Log::info($object);
 		try{
 		    $ossClient = new OssClient($this->config->get('ali.access_key_id'), $this->config->get('ali.access_key_secret'), $this->config->get('ali.end_point'));
 
 		    $res = $ossClient->uploadFile($this->config->get('ali.bucket'), $object, $filePath);
-		    Log::info($res);
 		} catch(OssException $e) {
 			Log::error($e->getMessage());
 		    return [ErrorCode::$CallException, $e->getMessage()];
