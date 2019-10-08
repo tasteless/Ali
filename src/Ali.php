@@ -88,12 +88,13 @@ class Ali
 		    $ossClient = new OssClient($this->config->get('ali.access_key_id'), $this->config->get('ali.access_key_secret'), $this->config->get('ali.end_point'));
 
 		    $res = $ossClient->uploadFile($this->config->get('ali.bucket'), $object, $filePath);
+		    Log::info($res);
 		} catch(OssException $e) {
 			Log::error($e->getMessage());
 		    return [ErrorCode::$CallException, $e->getMessage()];
 		}
 
-	    return [ErrorCode::$OK, $res['oss-request-url']];		
+	    return [ErrorCode::$OK, 'https://' . $this->config->get('ali.oss_domain') . '/' . $object];		
 	}
 
 
