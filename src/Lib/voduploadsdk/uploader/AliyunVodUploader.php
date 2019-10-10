@@ -417,7 +417,7 @@ class AliyunVodUploader
         }
 
         $data = $this->requestUploadInfo($request, 'video');
-        AliyunVodLog::printLog("CreateUploadVideo, FilePath: %s, VideoId: %s", $uploadVideoRequest->getFilePath(), $data->VideoId);
+        // AliyunVodLog::printLog("CreateUploadVideo, FilePath: %s, VideoId: %s", $uploadVideoRequest->getFilePath(), $data->VideoId);
         return $data;
     }
 
@@ -448,7 +448,7 @@ class AliyunVodUploader
         $request->setVideoId($videoId);
 
         $data = $this->requestUploadInfo($request, 'video');
-        AliyunVodLog::printLog("RefreshUploadVideo, VideoId: %s", $data->VideoId);
+        // AliyunVodLog::printLog("RefreshUploadVideo, VideoId: %s", $data->VideoId);
         return $data;
     }
 
@@ -485,8 +485,8 @@ class AliyunVodUploader
         }
 
         $data = $this->requestUploadInfo($request, 'image');
-        AliyunVodLog::printLog("CreateUploadImage, FilePath: %s, ImageId: %s, ImageURL: %s",
-            $uploadImageRequest->getFilePath(), $data->ImageId, $data->ImageURL);
+        // AliyunVodLog::printLog("CreateUploadImage, FilePath: %s, ImageId: %s, ImageURL: %s",
+            // $uploadImageRequest->getFilePath(), $data->ImageId, $data->ImageURL);
         return $data;
     }
 
@@ -526,8 +526,8 @@ class AliyunVodUploader
         }
 
         $data = $this->requestUploadInfo($request, 'attached');
-        AliyunVodLog::printLog("CreateUploadAttachedMedia, FilePath: %s, MediaId: %s, MediaURL: %s",
-            $uploadAttachedRequest->getFilePath(), $data->MediaId, $data->MediaURL);
+        // AliyunVodLog::printLog("CreateUploadAttachedMedia, FilePath: %s, MediaId: %s, MediaURL: %s",
+        //     $uploadAttachedRequest->getFilePath(), $data->MediaId, $data->MediaURL);
         return $data;
     }
 
@@ -538,8 +538,8 @@ class AliyunVodUploader
 
         $bucketHost = str_replace('://', '://'.$uploadInfo->UploadAddress->Bucket.".",
             $uploadInfo->UploadAddress->Endpoint);
-        AliyunVodLog::printLog("UploadFile %s Finish, MediaId: %s, FilePath: %s, Destination: %s/%s",
-            $uploadInfo->MediaType, $uploadInfo->MediaId, $filePath, $bucketHost, $object);
+        // AliyunVodLog::printLog("UploadFile %s Finish, MediaId: %s, FilePath: %s, Destination: %s/%s",
+        //     $uploadInfo->MediaType, $uploadInfo->MediaId, $filePath, $bucketHost, $object);
     }
 
     // 定义进度条回调函数；$consumedBytes: 已上传的数据量，$totalBytes：总数据量
@@ -551,8 +551,8 @@ class AliyunVodUploader
         else {
             $rate = 0;
         }
-        printf("[%s]UploadProgress of Media %s, uploaded %s bytes, percent %s%s\n",
-            AliyunVodUtils::getCurrentTimeStr(), $mediaId, $consumedBytes, round($rate, 1), '%');
+        // printf("[%s]UploadProgress of Media %s, uploaded %s bytes, percent %s%s\n",
+        //     AliyunVodUtils::getCurrentTimeStr(), $mediaId, $consumedBytes, round($rate, 1), '%');
         flush();
     }
 
